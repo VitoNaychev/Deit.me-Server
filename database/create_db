@@ -1,0 +1,109 @@
+CREATE TYPE gender AS ENUM ('male', 'female', 'other');
+CREATE TYPE preference AS ENUM ('men', 'women');
+
+CREATE TABLE public.user
+(
+    id serial NOT NULL,
+    email varchar(50) NOT NULL,
+    password varchar(80) NOT NULL,
+    first_name varchar(50) NOT NULL,
+    last_name varchar(50) NOT NULL,
+    phone_number varchar(50) NOT NULL,
+	gender GENDER NOT NULL,
+	preference PREFERENCE NOT NULL,
+	description text NOT NULL,
+	
+	UNIQUE(email),
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE public.interest
+(
+    id serial NOT NULL,
+    interest varchar(50) NOT NULL,
+    
+	UNIQUE(interest),
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE public.user_interest
+(
+	user_id integer NOT NULL,
+	interest_id integer NOT NULL,
+    FOREIGN KEY (user_id)
+        REFERENCES public.user (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+        NOT VALID,
+	FOREIGN KEY (interest_id)
+        REFERENCES public.interest (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+        NOT VALID,
+    
+	PRIMARY KEY (user_id, interest_id)
+);
+
+CREATE TABLE public.picture
+(
+	id serial NOT NULL,
+	picture bytea NOT NULL,
+	type varchar(50) NOT NULL,
+	user_id integer NOT NULL,
+	FOREIGN KEY (user_id)
+        REFERENCES public.user (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+        NOT VALID,
+	
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE public.like
+(
+	id serial NOT NULL,
+	liking_user integer NOT NULL,
+	liked_user integer NOT NULL,
+	FOREIGN KEY (liking_user)
+        REFERENCES public.user (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+        NOT VALID,
+	FOREIGN KEY (liked_user)
+        REFERENCES public.user (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+        NOT VALID,
+	
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE public.match
+(
+	id serial NOT NULL,
+	user_one integer NOT NULL,
+	user_two integer NOT NULL,
+	FOREIGN KEY (user_one)
+        REFERENCES public.user (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+        NOT VALID,
+	FOREIGN KEY (user_two)
+        REFERENCES public.user (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+        NOT VALID,
+	
+	PRIMARY KEY (id)
+);
+
+-- Match trigger has to add duplicate records for user_one and user_two
+-- aka if user 5 likes user 7 there should be two records:
+--
+-- user_one | user_two
+-- -------------------
+--    5     |    7
+--    7     |    5
+--
+-- This in turn will give us an array in the server layer with the people
+-- our user has matched with, without the need of any extra logic
