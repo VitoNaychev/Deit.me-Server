@@ -1,0 +1,2 @@
+-- -- Drop database deit.me
+DROP DATABASE IF EXISTS "deit.me";
