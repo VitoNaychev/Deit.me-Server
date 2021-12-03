@@ -97,6 +97,28 @@ CREATE TABLE public.match
 	PRIMARY KEY (id)
 );
 
+CREATE TABLE public.message
+(
+	id serial NOT NULL,
+	match_id integer NOT NULL,
+	user_id integer NOT NULL,
+	content text NOT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+	FOREIGN KEY (match_id)
+        REFERENCES public.match (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+        NOT VALID,
+	FOREIGN KEY (user_id)
+        REFERENCES public.user (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+        NOT VALID,
+
+	PRIMARY KEY (id)
+);
+
 -- Match trigger has to add duplicate records for user_one and user_two
 -- aka if user 5 likes user 7 there should be two records:
 --
