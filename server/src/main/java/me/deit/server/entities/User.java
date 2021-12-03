@@ -41,15 +41,11 @@ public class User {
     @Column (name = "description")
     private String description;
 
-    @Column (name = "username")
-    private String username;
-
     public User() {
     }
 
     public User(Long id, @Email String email, String password, @NotBlank String first_name, @NotBlank String last_name,
-                @NotBlank String phone_number, @NotBlank String gender, @NotBlank String preference, String description,
-                String username) {
+                @NotBlank String phone_number, @NotBlank String gender, @NotBlank String preference, String description) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -59,7 +55,6 @@ public class User {
         this.gender = gender;
         this.preference = preference;
         this.description = description;
-        this.username = username;
     }
 
     public Long getId() {
@@ -132,13 +127,5 @@ public class User {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }

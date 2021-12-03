@@ -2,18 +2,10 @@ package me.deit.server.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import me.deit.server.entities.User;
-import me.deit.server.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 //new class implementing UserDetails and ready for new business logic
 
@@ -31,10 +23,9 @@ public class UserDetailsImpl implements UserDetails {
     private String gender;
     private String preference;
     private String description;
-    private String username;
 
     public UserDetailsImpl(Long id, String email, String password, String first_name, String last_name, String phone_number, String gender,
-                           String preference, String description, String username) {
+                           String preference, String description) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -44,7 +35,6 @@ public class UserDetailsImpl implements UserDetails {
         this.phone_number = phone_number;
         this.preference = preference;
         this.description = description;
-        this.username = username;
     }
 
     public static UserDetailsImpl build(User user) {
@@ -57,8 +47,7 @@ public class UserDetailsImpl implements UserDetails {
                 user.getPhone_number(),
                 user.getGender(),
                 user.getPreference(),
-                user.getDescription(),
-                user.getUsername()
+                user.getDescription()
         );
     }
 
@@ -130,10 +119,6 @@ public class UserDetailsImpl implements UserDetails {
         this.description = description;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     //roles?
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -147,7 +132,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
