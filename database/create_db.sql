@@ -17,31 +17,31 @@ CREATE TABLE public.user
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE public.interest
+CREATE TABLE public.hobby
 (
     id serial NOT NULL,
-    interest varchar(50) NOT NULL,
+    hobby varchar(50) NOT NULL,
     
-	UNIQUE(interest),
+	UNIQUE(hobby),
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE public.user_interest
+CREATE TABLE public.user_hobby
 (
 	user_id integer NOT NULL,
-	interest_id integer NOT NULL,
+	hobby_id integer NOT NULL,
     FOREIGN KEY (user_id)
         REFERENCES public.user (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE
         NOT VALID,
-	FOREIGN KEY (interest_id)
-        REFERENCES public.interest (id) MATCH SIMPLE
+	FOREIGN KEY (hobby_id)
+        REFERENCES public.hobby (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE
         NOT VALID,
     
-	PRIMARY KEY (user_id, interest_id)
+	PRIMARY KEY (user_id, hobby_id)
 );
 
 CREATE TABLE public.picture
@@ -94,6 +94,28 @@ CREATE TABLE public.match
         ON DELETE CASCADE
         NOT VALID,
 	
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE public.message
+(
+	id serial NOT NULL,
+	match_id integer NOT NULL,
+	user_id integer NOT NULL,
+	content text NOT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	
+	FOREIGN KEY (match_id)
+        REFERENCES public.match (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+        NOT VALID,
+	FOREIGN KEY (user_id)
+        REFERENCES public.user (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+        NOT VALID,
+
 	PRIMARY KEY (id)
 );
 
