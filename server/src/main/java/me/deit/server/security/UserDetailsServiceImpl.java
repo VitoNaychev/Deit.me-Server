@@ -1,7 +1,7 @@
-package me.deit.server.services;
+package me.deit.server.security;
 
-import me.deit.server.entities.User;
-import me.deit.server.repositories.UserRepository;
+import me.deit.server.user.User;
+import me.deit.server.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

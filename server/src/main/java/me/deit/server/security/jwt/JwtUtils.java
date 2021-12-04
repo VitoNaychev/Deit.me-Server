@@ -1,15 +1,14 @@
 package me.deit.server.security.jwt;
 
-import java.util.Date;
-
-import me.deit.server.services.UserDetailsImpl;
+import io.jsonwebtoken.*;
+import me.deit.server.security.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.*;
+import java.util.Date;
 
 @Component
 public class JwtUtils {

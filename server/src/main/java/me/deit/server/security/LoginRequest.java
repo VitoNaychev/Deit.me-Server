@@ -1,4 +1,4 @@
-package me.deit.server.services;
+package me.deit.server.security;
 
 import javax.validation.constraints.NotBlank;
 

@@ -1,6 +1,5 @@
-package me.deit.server.repositories;
+package me.deit.server.user;
 
-import me.deit.server.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

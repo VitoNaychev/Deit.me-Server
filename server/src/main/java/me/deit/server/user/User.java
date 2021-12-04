@@ -1,54 +1,60 @@
-package me.deit.server.services;
+package me.deit.server.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import me.deit.server.entities.User;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
-import java.util.Collection;
+@Entity
+@Table(name="user", schema = "public",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "email")
+        })
+public class User {
 
-//new class implementing UserDetails and ready for new business logic
-
-public class UserDetailsImpl implements UserDetails {
-
+    @Id
+    @Column (name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column (name = "email")
+    @Email
     private String email;
 
-    @JsonIgnore
+    @Column (name= "password")
     private String password;
 
+    @Column (name = "first_name")
     private String first_name;
+
+    @Column (name = "last_name")
     private String last_name;
+
+    @Column (name = "phone_number")
     private String phone_number;
+
+    @Column (name = "gender")
     private String gender;
+
+    @Column (name = "preference")
     private String preference;
+
+    @Column (name = "description")
     private String description;
 
-    public UserDetailsImpl(Long id, String email, String password, String first_name, String last_name, String phone_number, String gender,
-                           String preference, String description) {
+    public User() {
+    }
+
+    public User(Long id, @Email String email, String password, @NotBlank String first_name, @NotBlank String last_name,
+                @NotBlank String phone_number, @NotBlank String gender, @NotBlank String preference, String description) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.first_name = first_name;
         this.last_name = last_name;
-        this.gender = gender;
         this.phone_number = phone_number;
+        this.gender = gender;
         this.preference = preference;
         this.description = description;
-    }
-
-    public static UserDetailsImpl build(User user) {
-        return new UserDetailsImpl(
-                user.getId(),
-                user.getEmail(),
-                user.getPassword(),
-                user.getFirst_name(),
-                user.getLast_name(),
-                user.getPhone_number(),
-                user.getGender(),
-                user.getPreference(),
-                user.getDescription()
-        );
     }
 
     public Long getId() {
@@ -65,6 +71,10 @@ public class UserDetailsImpl implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
@@ -117,41 +127,5 @@ public class UserDetailsImpl implements UserDetails {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    //roles?
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 }

@@ -2,7 +2,6 @@ package me.deit.server.security;
 
 import me.deit.server.security.jwt.AuthEntryPointJwt;
 import me.deit.server.security.jwt.AuthTokenFilter;
-import me.deit.server.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

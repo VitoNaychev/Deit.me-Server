@@ -1,4 +1,4 @@
-package me.deit.server.services;
+package me.deit.server.security;
 
 public class JwtResponse {
     private String token;
