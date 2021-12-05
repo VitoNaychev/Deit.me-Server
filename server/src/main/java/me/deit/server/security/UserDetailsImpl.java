@@ -1,6 +1,8 @@
 package me.deit.server.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import me.deit.server.user.Gender;
+import me.deit.server.user.Preference;
 import me.deit.server.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,12 +22,12 @@ public class UserDetailsImpl implements UserDetails {
     private String first_name;
     private String last_name;
     private String phone_number;
-    private String gender;
-    private String preference;
+    private Gender gender;
+    private Preference preference;
     private String description;
 
-    public UserDetailsImpl(Long id, String email, String password, String first_name, String last_name, String phone_number, String gender,
-                           String preference, String description) {
+    public UserDetailsImpl(Long id, String email, String password, String first_name, String last_name, String phone_number, Gender gender,
+                           Preference preference, String description) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -95,19 +97,19 @@ public class UserDetailsImpl implements UserDetails {
         this.phone_number = phone_number;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
-    public String getPreference() {
+    public Preference getPreference() {
         return preference;
     }
 
-    public void setPreference(String preference) {
+    public void setPreference(Preference preference) {
         this.preference = preference;
     }
 

@@ -1,6 +1,9 @@
 package me.deit.server.security;
 
 import me.deit.server.security.jwt.JwtUtils;
+import me.deit.server.user.Gender;
+import me.deit.server.user.Preference;
+import me.deit.server.user.User;
 import me.deit.server.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -44,5 +49,53 @@ public class AuthController {
                 userDetails.getId(),
                 userDetails.getEmail()
         ));
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Error: Email is already in use!");
+        }
+
+        User user = new User(
+                signUpRequest.getEmail(),
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getFirst_name(),
+                signUpRequest.getLast_name(),
+                signUpRequest.getPhone_number(),
+                getGenderFromSignRequest(signUpRequest.getGender()),
+                getPreferenceFromSignRequest(signUpRequest.getPreference()),
+                signUpRequest.getDescription()
+        );
+
+        userRepository.save(user);
+
+        return ResponseEntity.ok("User registered successfully!");
+    }
+
+    private Preference getPreferenceFromSignRequest(String preference) {
+        switch (preference.toUpperCase()) {
+            case "MEN":
+                return Preference.MEN;
+            case "WOMEN":
+                return Preference.WOMEN;
+        }
+
+        return null;
+    }
+
+    private Gender getGenderFromSignRequest(String gender) {
+        switch (gender.toUpperCase()) {
+            case "MALE":
+                return Gender.MALE;
+            case "FEMALE":
+                return  Gender.FEMALE;
+            case "OTHER":
+                return  Gender.OTHER;
+        }
+
+        return null;
     }
 }

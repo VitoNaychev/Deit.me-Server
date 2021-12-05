@@ -1,8 +1,11 @@
 package me.deit.server.user;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="user", schema = "public",
@@ -29,14 +32,19 @@ public class User {
     @Column (name = "last_name")
     private String last_name;
 
+    @Size(min = 10, max = 10)
     @Column (name = "phone_number")
     private String phone_number;
 
-    @Column (name = "gender")
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    @Type(type = "gender")
+    @Column(name = "gender", columnDefinition = "ENUM('MALE', 'FEMALE', 'OTHER')")
+    private Gender gender;
 
-    @Column (name = "preference")
-    private String preference;
+    @Enumerated(EnumType.STRING)
+    @Type(type = "preference")
+    @Column(name = "preference", columnDefinition = "ENUM('MEN', 'WOMEN')")
+    private Preference preference;
 
     @Column (name = "description")
     private String description;
@@ -44,9 +52,8 @@ public class User {
     public User() {
     }
 
-    public User(Long id, @Email String email, String password, @NotBlank String first_name, @NotBlank String last_name,
-                @NotBlank String phone_number, @NotBlank String gender, @NotBlank String preference, String description) {
-        this.id = id;
+    public User(@Email String email, String password, @NotBlank String first_name, @NotBlank String last_name,
+                @NotBlank String phone_number, @NotBlank Gender gender, @NotBlank Preference preference, String description) {
         this.email = email;
         this.password = password;
         this.first_name = first_name;
@@ -105,19 +112,19 @@ public class User {
         this.phone_number = phone_number;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
-    public String getPreference() {
+    public Preference getPreference() {
         return preference;
     }
 
-    public void setPreference(String preference) {
+    public void setPreference(Preference preference) {
         this.preference = preference;
     }
 
