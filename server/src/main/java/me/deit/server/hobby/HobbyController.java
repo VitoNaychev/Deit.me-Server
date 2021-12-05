@@ -12,10 +12,10 @@ import java.util.List;
 public class HobbyController {
 
     @Autowired
-    HobbyRepository hobbyRepository;
+    HobbyService hobbyService;
 
     @GetMapping
     public List<Hobby> getAllHobbies() {
-        return getAllHobbies();
+        return hobbyService.getAllHobbies();
     }
 }

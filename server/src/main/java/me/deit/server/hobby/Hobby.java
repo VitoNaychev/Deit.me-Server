@@ -14,6 +14,15 @@ public class Hobby {
     @Column(name = "hobby")
     private String hobby;
 
+    public Hobby(Long id, String hobby) {
+        this.id = id;
+        this.hobby = hobby;
+    }
+
+    public Hobby() {
+
+    }
+
     public Long getId() {
         return id;
     }
