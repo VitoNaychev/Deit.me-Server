@@ -33,14 +33,14 @@ public class User {
     private String password;
 
     @Column (name = "first_name")
-    private String first_name;
+    private String firstName;
 
     @Column (name = "last_name")
-    private String last_name;
+    private String lastName;
 
     @Size(min = 10, max = 10)
     @Column (name = "phone_number")
-    private String phone_number;
+    private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
     @Type(type = "gender")
@@ -73,13 +73,13 @@ public class User {
     public User() {
     }
 
-    public User(@Email String email, String password, @NotBlank String first_name, @NotBlank String last_name,
-                @NotBlank String phone_number, @NotBlank Gender gender, @NotBlank Preference preference, String description) {
+    public User(@Email String email, String password, @NotBlank String firstName, @NotBlank String lastName,
+                @NotBlank String phoneNumber, @NotBlank Gender gender, @NotBlank Preference preference, String description) {
         this.email = email;
         this.password = password;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.phone_number = phone_number;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
         this.gender = gender;
         this.preference = preference;
         this.description = description;
@@ -109,28 +109,28 @@ public class User {
         this.password = password;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Gender getGender() {

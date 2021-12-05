@@ -15,8 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -62,9 +60,9 @@ public class AuthController {
         User user = new User(
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),
-                signUpRequest.getFirst_name(),
-                signUpRequest.getLast_name(),
-                signUpRequest.getPhone_number(),
+                signUpRequest.getFirstName(),
+                signUpRequest.getLastName(),
+                signUpRequest.getPhoneNumber(),
                 getGenderFromSignRequest(signUpRequest.getGender()),
                 getPreferenceFromSignRequest(signUpRequest.getPreference()),
                 signUpRequest.getDescription()

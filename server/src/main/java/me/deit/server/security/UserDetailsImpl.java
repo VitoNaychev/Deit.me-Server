@@ -17,22 +17,22 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
 
-    private String first_name;
-    private String last_name;
-    private String phone_number;
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
     private Gender gender;
     private Preference preference;
     private String description;
 
-    public UserDetailsImpl(Long id, String email, String password, String first_name, String last_name, String phone_number, Gender gender,
+    public UserDetailsImpl(Long id, String email, String password, String firstName, String lastName, String phoneNumber, Gender gender,
                            Preference preference, String description) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.gender = gender;
-        this.phone_number = phone_number;
+        this.phoneNumber = phoneNumber;
         this.preference = preference;
         this.description = description;
     }
@@ -42,9 +42,9 @@ public class UserDetailsImpl implements UserDetails {
                 user.getId(),
                 user.getEmail(),
                 user.getPassword(),
-                user.getFirst_name(),
-                user.getLast_name(),
-                user.getPhone_number(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getPhoneNumber(),
                 user.getGender(),
                 user.getPreference(),
                 user.getDescription()
@@ -71,28 +71,28 @@ public class UserDetailsImpl implements UserDetails {
         this.password = password;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Gender getGender() {
