@@ -13,19 +13,19 @@ public class Match {
 
     @OneToOne
     @JoinColumn(name="user_one")
-    private User user_one;
+    private User userOne;
 
     @OneToOne
     @JoinColumn(name="user_two")
-    private User user_two;
+    private User userTwo;
 
     public Match() {
     }
 
-    public Match(Long id, User user_one, User user_two) {
+    public Match(Long id, User userOne, User userTwo) {
         this.id = id;
-        this.user_one = user_one;
-        this.user_two = user_two;
+        this.userOne = userOne;
+        this.userTwo = userTwo;
     }
 
     public Long getId() {
@@ -36,19 +36,19 @@ public class Match {
         this.id = id;
     }
 
-    public User getUser_one() {
-        return user_one;
+    public User getUserOne() {
+        return userOne;
     }
 
-    public void setUser_one(User user_one) {
-        this.user_one = user_one;
+    public void setUserOne(User userOne) {
+        this.userOne = userOne;
     }
 
-    public User getUser_two() {
-        return user_two;
+    public User getUserTwo() {
+        return userTwo;
     }
 
-    public void setUser_two(User user_two) {
-        this.user_two = user_two;
+    public void setUserTwo(User userTwo) {
+        this.userTwo = userTwo;
     }
 }
