@@ -1,11 +1,17 @@
 package me.deit.server.user;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import me.deit.server.hobby.Hobby;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="user", schema = "public",
@@ -48,6 +54,21 @@ public class User {
 
     @Column (name = "description")
     private String description;
+
+    @ManyToMany
+    @JsonManagedReference
+    @JoinTable(name = "user_hobby",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "hobby_id"))
+    private Set<Hobby> hobbies = new HashSet<>();
+
+    //TODO: eliminate loop reference User to User
+    @ManyToMany
+    @JsonIgnore
+    @JoinTable(name = "like",
+            joinColumns = @JoinColumn(name = "liked_user"),
+            inverseJoinColumns = @JoinColumn(name = "liking_user"))
+    private Set<User> users = new HashSet<>();
 
     public User() {
     }
@@ -134,5 +155,21 @@ public class User {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Hobby> getHobbies() {
+        return hobbies;
+    }
+
+    public void setHobbies(Set<Hobby> hobbies) {
+        this.hobbies = hobbies;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }

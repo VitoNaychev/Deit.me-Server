@@ -9,8 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-//new class implementing UserDetails and ready for new business logic
-
 public class UserDetailsImpl implements UserDetails {
 
     private Long id;
