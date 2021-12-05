@@ -26,17 +26,17 @@ public class Message {
     private String content;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-    private ZonedDateTime created_at;
+    private ZonedDateTime createdAt;
 
     public Message() {
     }
 
-    public Message(Long id, Match match, User user, String content, ZonedDateTime created_at) {
+    public Message(Long id, Match match, User user, String content, ZonedDateTime createdAt) {
         this.id = id;
         this.match = match;
         this.user = user;
         this.content = content;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -71,11 +71,11 @@ public class Message {
         this.content = content;
     }
 
-    public ZonedDateTime getCreated_at() {
-        return created_at;
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(ZonedDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
