@@ -1,29 +1,26 @@
 package me.deit.server.match;
 
-import me.deit.server.user.User;
-
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Entity
-@Table(name="match")
+@Table(name = "match")
 public class Match {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name="user_one")
-    private User userOne;
+    @Column(name = "user_one")
+    private Long userOne;
 
-    @OneToOne
-    @JoinColumn(name="user_two")
-    private User userTwo;
+    @Column(name = "user_two")
+    private Long userTwo;
 
     public Match() {
     }
 
-    public Match(Long id, User userOne, User userTwo) {
-        this.id = id;
+    public Match(Long userOne, Long userTwo) {
         this.userOne = userOne;
         this.userTwo = userTwo;
     }
@@ -36,19 +33,19 @@ public class Match {
         this.id = id;
     }
 
-    public User getUserOne() {
+    public Long getUserOne() {
         return userOne;
     }
 
-    public void setUserOne(User userOne) {
+    public void setUserOne(Long userOne) {
         this.userOne = userOne;
     }
 
-    public User getUserTwo() {
+    public Long getUserTwo() {
         return userTwo;
     }
 
-    public void setUserTwo(User userTwo) {
+    public void setUserTwo(Long userTwo) {
         this.userTwo = userTwo;
     }
 }
