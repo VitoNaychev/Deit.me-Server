@@ -1,5 +1,5 @@
-CREATE TYPE gender AS ENUM ('male', 'female', 'other');
-CREATE TYPE preference AS ENUM ('men', 'women');
+CREATE TYPE gender AS ENUM ('MALE', 'FEMALE', 'OTHER');
+CREATE TYPE preference AS ENUM ('MEN', 'WOMEN');
 
 CREATE TABLE public.user
 (
@@ -11,7 +11,7 @@ CREATE TABLE public.user
     phone_number varchar(50) NOT NULL,
 	gender GENDER NOT NULL,
 	preference PREFERENCE NOT NULL,
-	description text NOT NULL,
+	description text,
 	
 	UNIQUE(email),
 	PRIMARY KEY (id)

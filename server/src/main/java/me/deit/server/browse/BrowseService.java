@@ -51,7 +51,7 @@ public class BrowseService {
             return true;
         }
 
-        for (Hobby ourHobby : ourUser.getHobby()) {
+        for (Hobby ourHobby : ourUser.getHobbies()) {
             for (Hobby theirHobby : theirUser.getHobby()) {
                 if (Objects.equals(ourHobby.getHobby(), theirHobby.getHobby())) {
                     return true;

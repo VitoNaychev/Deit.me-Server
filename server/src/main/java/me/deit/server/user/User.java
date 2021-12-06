@@ -1,52 +1,81 @@
 package me.deit.server.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import me.deit.server.hobby.Hobby;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
-import static javax.persistence.GenerationType.*;
-
 @Entity
-@Table(name = "\"user\"", uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
+@Table(name="user", schema = "public",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "email")
+        })
 public class User {
+
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @Column (name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "email")
+    @Column (name = "email")
+    @Email
     private String email;
 
-    @Column(name = "password")
+    @Column (name= "password")
     private String password;
 
-    @Column(name = "first_name")
+    @Column (name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column (name = "last_name")
     private String lastName;
 
-    @Column(name = "phone_number")
-    private String phone_number;
+    @Size(min = 10, max = 10)
+    @Column (name = "phone_number")
+    private String phoneNumber;
 
-    @Column(name = "gender")
     @Enumerated(EnumType.STRING)
+    @Type(type = "gender")
+    @Column(name = "gender", columnDefinition = "ENUM('MALE', 'FEMALE', 'OTHER')")
     private Gender gender;
 
-    @Column(name = "preference")
     @Enumerated(EnumType.STRING)
+    @Type(type = "preference")
+    @Column(name = "preference", columnDefinition = "ENUM('MEN', 'WOMEN', 'BOTH')")
     private Preference preference;
 
-    @Column(name = "description")
+    @Column (name = "description")
     private String description;
 
     @ManyToMany
-    @JoinTable(
-            name = "user_hobby",
+    @JsonManagedReference
+    @JoinTable(name = "user_hobby",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "hobby_id"))
-    private Set<Hobby> hobby;
+    private Set<Hobby> hobbies = new HashSet<>();
+
+    public User() {
+    }
+
+    public User(@Email String email, String password, @NotBlank String firstName, @NotBlank String lastName,
+                @NotBlank String phoneNumber, @NotBlank Gender gender, @NotBlank Preference preference, String description) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
+        this.preference = preference;
+        this.description = description;
+    }
 
     public Long getId() {
         return id;
@@ -88,12 +117,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Gender getGender() {
@@ -120,11 +149,11 @@ public class User {
         this.description = description;
     }
 
-    public Set<Hobby> getHobby() {
-        return hobby;
+    public Set<Hobby> getHobbies() {
+        return hobbies;
     }
 
-    public void setHobby(Set<Hobby> hobby) {
-        this.hobby = hobby;
+    public void setHobbies(Set<Hobby> hobbies) {
+        this.hobbies = hobbies;
     }
 }
