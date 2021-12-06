@@ -73,11 +73,12 @@ public class BrowseService {
             do {
                 randomId = (long) Math.floor(Math.random() * userCount + 1);
             } while (randomId == ourUser.getId() ||
+                     // check whether user with this id exists
                      likeRepository.checkIfWeHaveLikedThem(ourUser.getId(), randomId) ||
                      matchRepository.checkIfWeHaveMatchedWithThem(ourUser.getId(), randomId));
 
             theirUser = browseUserRepository.findById(randomId).get();
-        } while (!matchesOurPreference(ourUser, theirUser) &&
+        } while (!matchesOurPreference(ourUser, theirUser) ||
                  !matchesOurHobbies(ourUser, theirUser, shouldMatchHobbies));
 
         do {

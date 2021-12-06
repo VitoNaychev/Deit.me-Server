@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/browse")
@@ -21,15 +22,15 @@ public class BrowseController {
     BrowseService browseService;
 
     @GetMapping
-    public TokenedUser getRandomUser(@RequestParam boolean shouldMatchHobbies) {
-        User ourUser = userRepository.findById(4L).get();
+    public TokenedUser getRandomUser(Principal principal, @RequestParam boolean shouldMatchHobbies) {
+        User ourUser = userRepository.findByEmail(principal.getName()).get();
 
         return browseService.getRandomUserBasedOnOurUser(ourUser, shouldMatchHobbies);
     }
 
     @PostMapping
-    public MatchResponse likeSelectedUser(@Valid @RequestBody TokenedLike tokenedLike) {
-        User ourUser = userRepository.findById(4L).get();
+    public MatchResponse likeSelectedUser(Principal principal, @Valid @RequestBody TokenedLike tokenedLike) {
+        User ourUser = userRepository.findByEmail(principal.getName()).get();
 
         try {
             return browseService.likeSelectedUser(ourUser, tokenedLike);
