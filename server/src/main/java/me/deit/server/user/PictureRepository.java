@@ -17,4 +17,9 @@ public interface PictureRepository extends JpaRepository<Picture, Integer> {
     @Modifying
     @Query("UPDATE Picture SET picture = :picture WHERE userId = :userId")
     void serPicture (Integer userId, byte[] picture);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Picture WHERE id = :pictureId")
+    void deletePictureById(Long pictureId);
 }
