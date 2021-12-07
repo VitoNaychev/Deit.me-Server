@@ -1,4 +1,4 @@
-package me.deit.server.security.jwt;
+package me.deit.server.utility.jwt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

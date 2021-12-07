@@ -1,6 +1,6 @@
 package me.deit.server.security;
 
-import me.deit.server.security.jwt.JwtUtils;
+import me.deit.server.utility.jwt.JwtUtils;
 import me.deit.server.user.Gender;
 import me.deit.server.user.Preference;
 import me.deit.server.user.User;
