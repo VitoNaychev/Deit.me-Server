@@ -25,7 +25,11 @@ public class BrowseController {
     public TokenedUser getRandomUser(Principal principal, @RequestParam boolean shouldMatchHobbies) {
         User ourUser = userRepository.findByEmail(principal.getName()).get();
 
-        return browseService.getRandomUserBasedOnOurUser(ourUser, shouldMatchHobbies);
+        try {
+            return browseService.getRandomUserBasedOnOurUser(ourUser, shouldMatchHobbies);
+        } catch (DailyLimitExceededException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+        }
     }
 
     @PostMapping
@@ -35,7 +39,7 @@ public class BrowseController {
         try {
             return browseService.likeSelectedUser(ourUser, tokenedLike);
         } catch (NoSuchTokenException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such token");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 }

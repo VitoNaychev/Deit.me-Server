@@ -55,6 +55,9 @@ public class User {
     @Column (name = "description")
     private String description;
 
+    @Column (name = "liked_profiles")
+    private Integer likedProfiles;
+
     @ManyToMany
     @JsonManagedReference
     @JoinTable(name = "user_hobby",
@@ -155,5 +158,17 @@ public class User {
 
     public void setHobbies(Set<Hobby> hobbies) {
         this.hobbies = hobbies;
+    }
+
+    public Integer getLikedProfiles() {
+        return likedProfiles;
+    }
+
+    public void setLikedProfiles(Integer likedProfiles) {
+        this.likedProfiles = likedProfiles;
+    }
+
+    public void incrementLikedProfiles() {
+        this.likedProfiles ++;
     }
 }

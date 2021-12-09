@@ -6,6 +6,7 @@ import me.deit.server.match.Match;
 import me.deit.server.match.MatchRepository;
 import me.deit.server.hobby.Hobby;
 import me.deit.server.user.User;
+import me.deit.server.user.UserRepository;
 import me.deit.server.utility.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ import static me.deit.server.user.Gender.MALE;
 @Component
 public class BrowseService {
     private static final int TOKEN_LENGTH = 16;
+    private static final int MAX_PROFILES = 5;
 
     @Autowired
     BrowseUserRepository browseUserRepository;
@@ -30,6 +32,9 @@ public class BrowseService {
 
     @Autowired
     MatchRepository matchRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     private Map<String, Long> tokenUserIdMap = new HashMap<>();
 
@@ -62,7 +67,11 @@ public class BrowseService {
     }
 
 
-    public TokenedUser getRandomUserBasedOnOurUser(User ourUser, boolean shouldMatchHobbies) {
+    public TokenedUser getRandomUserBasedOnOurUser(User ourUser, boolean shouldMatchHobbies) throws DailyLimitExceededException {
+        if (ourUser.getLikedProfiles() >= MAX_PROFILES) {
+            throw new DailyLimitExceededException();
+        }
+
         String token;
         long randomId;
         BrowseUser theirUser;
@@ -73,7 +82,7 @@ public class BrowseService {
             do {
                 randomId = (long) Math.floor(Math.random() * userCount + 1);
             } while (randomId == ourUser.getId() ||
-                     // check whether user with this id exists
+                     browseUserRepository.findById(randomId).isEmpty() ||
                      likeRepository.checkIfWeHaveLikedThem(ourUser.getId(), randomId) ||
                      matchRepository.checkIfWeHaveMatchedWithThem(ourUser.getId(), randomId));
 
@@ -107,6 +116,9 @@ public class BrowseService {
         Long theirUserId = tokenUserIdMap.remove(tokenedLike.getToken());
         likeRepository.save(new Like(ourUser.getId(), theirUserId));
         likeRepository.flush();
+
+        ourUser.incrementLikedProfiles();
+        userRepository.save(ourUser);
 
         if (likeRepository.checkIfTheyHaveLikedUs(theirUserId, ourUserId) &&
                 likeRepository.checkIfWeHaveLikedThem(ourUserId, theirUserId)) {
