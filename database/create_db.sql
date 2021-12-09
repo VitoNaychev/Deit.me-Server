@@ -1,5 +1,5 @@
 CREATE TYPE gender AS ENUM ('MALE', 'FEMALE', 'OTHER');
-CREATE TYPE preference AS ENUM ('MEN', 'WOMEN');
+CREATE TYPE preference AS ENUM ('MEN', 'WOMEN', 'BOTH');
 
 CREATE TABLE public.user
 (
@@ -12,6 +12,7 @@ CREATE TABLE public.user
 	gender GENDER NOT NULL,
 	preference PREFERENCE NOT NULL,
 	description text,
+	liked_profiles integer NOT NULL DEFAULT 0,
 	
 	UNIQUE(email),
 	PRIMARY KEY (id)
