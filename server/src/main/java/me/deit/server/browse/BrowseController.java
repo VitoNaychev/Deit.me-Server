@@ -2,6 +2,7 @@ package me.deit.server.browse;
 
 import me.deit.server.user.User;
 import me.deit.server.user.UserRepository;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,8 @@ public class BrowseController {
             return browseService.getRandomUserBasedOnOurUser(ourUser, shouldMatchHobbies);
         } catch (DailyLimitExceededException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+        } catch (NoUsersLeftException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
