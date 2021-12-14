@@ -5,6 +5,7 @@ import me.deit.server.like.LikeRepository;
 import me.deit.server.match.Match;
 import me.deit.server.match.MatchRepository;
 import me.deit.server.hobby.Hobby;
+import me.deit.server.user.Preference;
 import me.deit.server.user.User;
 import me.deit.server.user.UserRepository;
 import me.deit.server.utility.TokenGenerator;
@@ -18,6 +19,7 @@ import java.util.Objects;
 
 import static me.deit.server.user.Gender.FEMALE;
 import static me.deit.server.user.Gender.MALE;
+import static me.deit.server.user.Preference.*;
 
 @Component
 public class BrowseService {
@@ -41,9 +43,11 @@ public class BrowseService {
     private boolean matchesOurPreference(User ourUser, BrowseUser theirUser) {
         switch (ourUser.getPreference()) {
             case MEN:
-                return theirUser.getGender() == MALE;
+                return theirUser.getGender() == MALE &&
+                        (theirUser.getPreference() == WOMEN || theirUser.getPreference() == BOTH);
             case WOMEN:
-                return theirUser.getGender() == FEMALE;
+                return theirUser.getGender() == FEMALE &&
+                        (theirUser.getPreference() == MEN || theirUser.getPreference() == BOTH);
             case BOTH:
                 return true;
             default:
