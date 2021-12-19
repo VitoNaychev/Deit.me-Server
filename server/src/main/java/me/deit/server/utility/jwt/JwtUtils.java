@@ -1,4 +1,4 @@
-package me.deit.server.security.jwt;
+package me.deit.server.utility.jwt;
 
 import io.jsonwebtoken.*;
 import me.deit.server.security.UserDetailsImpl;

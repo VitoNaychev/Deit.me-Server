@@ -29,6 +29,8 @@ public class BrowseController {
             return browseService.getRandomUserBasedOnOurUser(ourUser, shouldMatchHobbies);
         } catch (DailyLimitExceededException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+        } catch (NoUsersLeftException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 

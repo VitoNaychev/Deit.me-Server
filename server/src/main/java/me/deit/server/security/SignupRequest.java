@@ -1,5 +1,6 @@
 package me.deit.server.security;
 
+import me.deit.server.hobby.Hobby;
 import me.deit.server.user.Gender;
 
 import javax.persistence.EnumType;
@@ -8,6 +9,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class SignupRequest {
@@ -36,6 +40,8 @@ public class SignupRequest {
 
     @NotBlank
     private String preference;
+
+    private Map<String, String> hobbies = new HashMap<>();
 
     private String description;
 
@@ -101,5 +107,13 @@ public class SignupRequest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Map<String, String> getHobbies() {
+        return hobbies;
+    }
+
+    public void setHobbies(Map<String, String> hobbies) {
+        this.hobbies = hobbies;
     }
 }

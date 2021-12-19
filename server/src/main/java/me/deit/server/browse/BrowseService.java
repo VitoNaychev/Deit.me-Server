@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 
@@ -71,7 +72,7 @@ public class BrowseService {
     }
 
 
-    public TokenedUser getRandomUserBasedOnOurUser(User ourUser, boolean shouldMatchHobbies) throws DailyLimitExceededException {
+    public TokenedUser getRandomUserBasedOnOurUser(User ourUser, boolean shouldMatchHobbies) throws DailyLimitExceededException, NoUsersLeftException {
         if (ourUser.getLikedProfiles() >= MAX_PROFILES) {
             throw new DailyLimitExceededException();
         }
@@ -81,10 +82,16 @@ public class BrowseService {
         BrowseUser theirUser;
 
         long userCount = browseUserRepository.count();
+        HashSet<Long> generatedIds = new HashSet<>();
 
         do {
             do {
                 randomId = (long) Math.floor(Math.random() * userCount + 1);
+
+                generatedIds.add(randomId);
+                if (generatedIds.size() == userCount) {
+                    throw new NoUsersLeftException();
+                }
             } while (randomId == ourUser.getId() ||
                      browseUserRepository.findById(randomId).isEmpty() ||
                      likeRepository.checkIfWeHaveLikedThem(ourUser.getId(), randomId) ||
