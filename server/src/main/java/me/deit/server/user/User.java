@@ -69,7 +69,7 @@ public class User {
     }
 
     public User(@Email String email, String password, @NotBlank String firstName, @NotBlank String lastName,
-                @NotBlank String phoneNumber, @NotBlank Gender gender, @NotBlank Preference preference, String description) {
+                @NotBlank String phoneNumber, @NotBlank Gender gender, @NotBlank Preference preference, String description, Set<Hobby> hobbies) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -78,6 +78,7 @@ public class User {
         this.gender = gender;
         this.preference = preference;
         this.description = description;
+        this.hobbies = hobbies;
     }
 
     public Long getId() {

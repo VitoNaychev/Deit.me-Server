@@ -1,4 +1,4 @@
-package me.deit.server.security.jwt;
+package me.deit.server.utility.jwt;
 
 import me.deit.server.security.UserDetailsServiceImpl;
 import me.deit.server.user.UserRepository;

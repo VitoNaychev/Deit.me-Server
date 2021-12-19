@@ -1,6 +1,7 @@
 package me.deit.server.security;
 
-import me.deit.server.security.jwt.JwtUtils;
+import me.deit.server.hobby.Hobby;
+import me.deit.server.utility.jwt.JwtUtils;
 import me.deit.server.user.Gender;
 import me.deit.server.user.Preference;
 import me.deit.server.user.User;
@@ -15,6 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -57,6 +61,13 @@ public class AuthController {
                     .body("Error: Email is already in use!");
         }
 
+
+        Map<String, String> hobbies = signUpRequest.getHobbies();
+        Set<Hobby> userHobbies = new HashSet<>();
+        for (Map.Entry<String, String> hobby : hobbies.entrySet()) {
+            userHobbies.add(new Hobby(Long.parseLong(hobby.getKey()), hobby.getValue()));
+        }
+
         User user = new User(
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),
@@ -65,7 +76,8 @@ public class AuthController {
                 signUpRequest.getPhoneNumber(),
                 getGenderFromSignRequest(signUpRequest.getGender()),
                 getPreferenceFromSignRequest(signUpRequest.getPreference()),
-                signUpRequest.getDescription()
+                signUpRequest.getDescription(),
+                userHobbies
         );
 
         userRepository.save(user);
