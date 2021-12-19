@@ -80,9 +80,11 @@ public class AuthController {
                 userHobbies
         );
 
-        userRepository.save(user);
+        User s = userRepository.save(user);
 
-        return ResponseEntity.ok("User registered successfully!");
+        LoginRequest loginRequest = new LoginRequest(user.getEmail(), signUpRequest.getPassword());
+
+        return authenticateUser(loginRequest);
     }
 
     private Preference getPreferenceFromSignRequest(String preference) {
