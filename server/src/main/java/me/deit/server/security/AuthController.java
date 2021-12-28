@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -38,7 +39,6 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
@@ -85,6 +85,13 @@ public class AuthController {
         LoginRequest loginRequest = new LoginRequest(user.getEmail(), signUpRequest.getPassword());
 
         return authenticateUser(loginRequest);
+    }
+
+    @GetMapping("/validatetoken")
+    public Map<String, Boolean> validateJwtToken(@RequestParam String token) {
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("valid", jwtUtils.validateJwtToken(token));
+        return response;
     }
 
     private Preference getPreferenceFromSignRequest(String preference) {
